@@ -1,0 +1,129 @@
+{% extends "library/base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<section class="text-center py-10 bg-gray-100">
+    <h1 class="text-4xl font-bold text-blue-600 mb-4">Welcome to the Library Management System</h1>
+    <p class="text-lg mb-6">Efficiently manage books, borrowing records, and more.</p>
+</section>
+
+<!-- Search Section -->
+<div class="mt-8 p-4">
+    <h2 class="text-2xl font-semibold mb-4 text-center">Search for Books</h2>
+    <form action="/search" method="GET" class="flex justify-center">
+        <input type="text" name="query" placeholder="Search by title, author, or genre"
+               class="w-1/3 p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-700">
+            Search
+        </button>
+    </form>
+</div>
+
+<!-- New Arrivals -->
+<div class="mt-10 p-4">
+    <h2 class="text-2xl font-semibold mb-4 text-center">New Arrivals</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <!-- Book cards -->
+        <div class="bg-white shadow-md rounded-lg p-4">
+            <img src="book-cover.jpg" alt="Book Cover" class="w-full h-40 object-cover mb-4 rounded">
+            <h3 class="text-lg font-semibold">Book Title</h3>
+            <p class="text-sm text-gray-600">Author Name</p>
+        </div>
+        <!-- Repeat similar blocks for more books -->
+    </div>
+</div>
+
+<!-- Popular Books -->
+<div class="mt-10 p-4">
+    <h2 class="text-2xl font-semibold mb-4 text-center">Popular Books</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <!-- Book cards -->
+        <div class="bg-white shadow-md rounded-lg p-4">
+            <img src="book-cover.jpg" alt="Book Cover" class="w-full h-40 object-cover mb-4 rounded">
+            <h3 class="text-lg font-semibold">Popular Book Title</h3>
+            <p class="text-sm text-gray-600">Author Name</p>
+        </div>
+        <!-- Repeat similar blocks for more books -->
+    </div>
+</div>
+
+<!-- User Dashboard Quick Links -->
+<div class="mt-8 p-4">
+    <h2 class="text-2xl font-semibold mb-4 text-center">Your Dashboard</h2>
+    <div class="flex justify-center space-x-6">
+        <a href="/borrowing-history" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-700">Borrowing History</a>
+        <a href="/reservations" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-700">Your Reservations</a>
+        <a href="/fines" class="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-700">Pending Fines</a>
+    </div>
+</div>
+
+<!-- Announcements and Events -->
+<div class="mt-10 p-4">
+    <h2 class="text-2xl font-semibold mb-4 text-center">Announcements</h2>
+    <ul>
+        <li class="mb-4 bg-gray-100 p-4 rounded-lg shadow">
+            <h3 class="font-semibold">Library Workshop on Research Techniques</h3>
+            <p class="text-sm text-gray-600">Join us on Dec 12 for a workshop on effective research techniques.</p>
+        </li>
+        <!-- Repeat similar blocks for more announcements -->
+    </ul>
+</div>
+
+<!-- Recommended Books -->
+<div class="mt-10 p-4">
+    <h2 class="text-2xl font-semibold mb-4 text-center">Recommended for You</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <!-- Book cards similar to New Arrivals and Popular Books -->
+        <div class="bg-white shadow-md rounded-lg p-4">
+            <img src="book-cover.jpg" alt="Book Cover" class="w-full h-40 object-cover mb-4 rounded">
+            <h3 class="text-lg font-semibold">Recommended Book Title</h3>
+            <p class="text-sm text-gray-600">Author Name</p>
+        </div>
+        <!-- Repeat similar blocks for more books -->
+    </div>
+</div>
+
+<!-- Library Services -->
+<div class="mt-10 bg-blue-50 p-6 rounded-lg shadow-md">
+    <h2 class="text-2xl font-semibold mb-4 text-blue-600 text-center">Library Services</h2>
+    <p class="text-gray-700 text-center mb-4">Our library offers a variety of services:</p>
+    <ul class="list-disc list-inside text-gray-700 text-center">
+        <li>Book Borrowing and Returns</li>
+        <li>Study Room Reservations</li>
+        <li>Access to Digital Resources and Journals</li>
+        <li>Research Assistance</li>
+    </ul>
+</div>
+
+<!-- Library Statistics -->
+<div class="mt-10 bg-gray-50 p-6 rounded-lg shadow-md">
+    <h2 class="text-2xl font-semibold mb-4 text-blue-600 text-center">Library Statistics</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+        <div>
+            <h3 class="text-3xl font-bold">5000+</h3>
+            <p class="text-sm text-gray-600">Total Books</p>
+        </div>
+        <div>
+            <h3 class="text-3xl font-bold">1200+</h3>
+            <p class="text-sm text-gray-600">Active Users</p>
+        </div>
+        <div>
+            <h3 class="text-3xl font-bold">300</h3>
+            <p class="text-sm text-gray-600">Books Borrowed Today</p>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Author of the Month -->
+<div class="mt-10 p-4">
+    <h2 class="text-2xl font-semibold mb-4 text-center">Featured Author of the Month</h2>
+    <div class="bg-white shadow-md rounded-lg p-4 flex items-center">
+        <img src="author-photo.jpg" alt="Author Photo" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-lg font-semibold">Author Name</h3>
+            <p class="text-sm text-gray-600">A brief description about the author and their contribution to literature.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

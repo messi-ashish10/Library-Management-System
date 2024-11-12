@@ -1,0 +1,25 @@
+{% extends "library/base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<section class="max-w-md mx-auto mt-10 bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-bold text-center mb-6">Login to Your Account</h2>
+    <form action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Username" class="w-full p-2 mb-4 border rounded-lg">
+        <input type="password" name="password" placeholder="Password" class="w-full p-2 mb-4 border rounded-lg">
+        <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-700">Login</button>
+    </form>
+
+    <!-- Register and Forgot Password Links -->
+    <div class="mt-4 text-center">
+        <p class="text-sm text-gray-600">
+            Not registered? <a href="{% url 'register' %}" class="text-blue-500 hover:underline">Create an account</a>
+        </p>
+        <p class="text-sm text-gray-600 mt-2">
+            Forgot your password? <a href="{% url 'password_reset' %}" class="text-blue-500 hover:underline">Reset it here</a>
+        </p>
+    </div>
+</section>
+{% endblock %}
