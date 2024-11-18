@@ -1,0 +1,42 @@
+name: CI/CD Pipeline for Library Management System
+
+on:
+  push:
+    branches:
+      - main  # Trigger pipeline on changes pushed to the main branch
+
+jobs:
+  build-and-push:
+    name: Build and Push Docker Images to ECR
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Log in to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build Docker Image
+      run: |
+        docker build -t library-management-system-backend .
+        docker tag library-management-system-backend:latest <AWS_ACCOUNT_ID>.dkr.ecr.<AWS_REGION>.amazonaws.com/library-management-system-backend:latest
+
+    - name: Push Docker Image to ECR
+      run: |
+        docker push <AWS_ACCOUNT_ID>.dkr.ecr.<AWS_REGION>.amazonaws.com/library-management-system-backend:latest
+
+  deploy:
+    name: Deploy to Amazon ECS
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy to Amazon ECS
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ecs-task-definition.json
+        service: library-management-system-service
+        cluster: library-management-system-cluster
+        wait-for-service-stability: true
