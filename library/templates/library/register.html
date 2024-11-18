@@ -1,17 +1,73 @@
 {% extends "library/base.html" %}
 
+{% load static %}
+
 {% block title %}Register{% endblock %}
 
 {% block content %}
-<section class="max-w-md mx-auto mt-10 bg-white p-6 rounded-lg shadow-lg">
-    <h2 class="text-2xl font-bold text-center mb-6">Create an Account</h2>
-    <form action="{% url 'register' %}" method="POST">
-        {% csrf_token %}
-        <input type="text" name="username" placeholder="Username" class="w-full p-2 mb-4 border rounded-lg">
-        <input type="email" name="email" placeholder="Email" class="w-full p-2 mb-4 border rounded-lg">
-        <input type="password" name="password1" placeholder="Password" class="w-full p-2 mb-4 border rounded-lg">
-        <input type="password" name="password2" placeholder="Confirm Password" class="w-full p-2 mb-4 border rounded-lg">
-        <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-700">Register</button>
-    </form>
+<section class="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-teal-500">
+    <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
+        <h2 class="text-2xl font-semibold text-center mb-6 text-blue-600">Create Your Account</h2>
+        
+        <!-- Messages for success or error -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="p-2 text-red-600 font-semibold text-center">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Form Error Messages -->
+        {% if form.errors %}
+            <div class="text-red-600 mb-4">
+                <ul>
+                    {% for field, errors in form.errors.items %}
+                        <li><strong>{{ field }}</strong>: {{ errors|join:", " }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <form method="POST" action="" class="space-y-4" novalidate>
+            {% csrf_token %}
+            
+            <!-- Username Field -->
+            <div>
+                <label for="username" class="block text-gray-700 text-sm font-semibold mb-1">Username</label>
+                <input type="text" name="username" id="username" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Choose a username" required>
+            </div>
+
+            <!-- Email Field -->
+            <div>
+                <label for="email" class="block text-gray-700 text-sm font-semibold mb-1">Email Address</label>
+                <input type="email" name="email" id="email" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="email@example.com" required>
+            </div>
+
+            <!-- Password Field -->
+            <div>
+                <label for="password1" class="block text-gray-700 text-sm font-semibold mb-1">Password</label>
+                <input type="password" name="password1" id="password1" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="********" required>
+            </div>
+
+            <!-- Confirm Password Field -->
+            <div>
+                <label for="password2" class="block text-gray-700 text-sm font-semibold mb-1">Confirm Password</label>
+                <input type="password" name="password2" id="password2" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="********" required>
+            </div>
+
+            <!-- Terms and Conditions Checkbox -->
+            <div class="flex items-start">
+                <input type="checkbox" id="terms" required class="mr-2 mt-1">
+                <label for="terms" class="text-gray-600 text-sm">I agree to the <a href="#" class="text-blue-500 underline">terms and conditions</a>.</label>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition-all duration-300 ease-in-out focus:ring-4 focus:ring-blue-300">Create Account</button>
+        </form>
+
+        <!-- Link to Login -->
+        <div class="mt-6 text-center">
+            <p class="text-gray-600 text-sm">Already have an account? <a href="{% url 'login' %}" class="text-blue-600 font-semibold hover:underline">Sign in</a>.</p>
+        </div>
+    </div>
 </section>
 {% endblock %}

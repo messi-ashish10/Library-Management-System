@@ -8,7 +8,6 @@
     {% load static %}
     <link href="{% static 'css/library.css' %}" rel="stylesheet">
 
-    <!-- Add CSS for improved dropdown styling -->
     <style>
         .dropdown {
             position: relative;
@@ -18,10 +17,10 @@
         .dropdown-content {
             display: none;
             position: absolute;
-            right: 0; /* Aligns the dropdown content to the right edge */
+            right: 0;
             background-color: white;
             color: gray;
-            width: 160px; /* Fixed width for dropdown content */
+            width: 160px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             border-radius: 5px;
             overflow: hidden;
@@ -42,6 +41,20 @@
         .dropdown:focus-within .dropdown-content {
             display: block;
         }
+
+        /* Styles for messages */
+        .messages {
+            margin-bottom: 20px;
+        }
+        .message {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .message.success { background-color: #d4edda; color: #155724; }
+        .message.error { background-color: #f8d7da; color: #721c24; }
+        .message.info { background-color: #d1ecf1; color: #0c5460; }
+        .message.warning { background-color: #fff3cd; color: #856404; }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-900">
@@ -52,16 +65,19 @@
             <a href="/" class="text-2xl font-bold">Library Management System</a>
             <nav class="flex space-x-4">
                 <a href="/" class="hover:text-gray-300">Home</a>
-                <a href="/add-books" class="hover:text-gray-300">Books</a>
-                <a href="/about" class="hover:text-gray-300">About</a>
-                <a href="/contact" class="hover:text-gray-300">Contact</a>
+                <a href="{% url 'book_list' %}" class="hover:text-gray-300">Books</a>
+                <a href="{% url 'about' %}" class="hover:text-gray-300">About</a>
+                <a href="{% url 'contact' %}" class="hover:text-gray-300">Contact</a>
                 
-                <!-- Profile Dropdown -->
                 <div class="dropdown">
                     <button class="hover:text-gray-300 focus:outline-none">Profile</button>
                     <div class="dropdown-content">
-                        <a href="/login">Login</a>
-                        <a href="/profile">My Profile</a>
+                        <a href="{% url 'profile' %}">My Profile</a> <!-- Always show "My Profile" -->
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'logout' %}">Logout</a>
+                        {% else %}
+                            <a href="{% url 'login' %}">Login</a>
+                        {% endif %}
                     </div>
                 </div>
             </nav>
@@ -70,6 +86,15 @@
 
     <!-- Main Content -->
     <main class="container mx-auto p-6">
+        <!-- Messages Section -->
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         {% block content %}{% endblock %}
     </main>
 
@@ -77,5 +102,6 @@
     <footer class="bg-gray-800 text-white text-center py-4 mt-6">
         <p>&copy; 2024 Library Management System. All rights reserved.</p>
     </footer>
+
 </body>
 </html>

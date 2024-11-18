@@ -21,4 +21,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('library.urls')),  # Include the library app URLs
+    path('', include('admin_dashboard.urls')),
 ]

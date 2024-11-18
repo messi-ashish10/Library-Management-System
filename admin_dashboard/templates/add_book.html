@@ -1,0 +1,15 @@
+{% extends "library/base.html" %}
+
+{% block title %}{{ book.title if book else 'Add Book' }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto max-w-lg p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-2xl font-semibold mb-4">{{ book.title if book else 'Add New Book' }}</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded mt-4">{{ 'Update Book' if book else 'Add Book' }}</button>
+    </form>
+</div>
+{% endblock %}

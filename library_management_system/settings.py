@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'library',
     'rest_framework',
+    'admin_dashboard',
 ]
 
 MIDDLEWARE = [
@@ -77,12 +79,12 @@ WSGI_APPLICATION = 'library_management_system.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'library_db',          # Your database name
-        'USER': 'root',      # Your MySQL username
-        'PASSWORD': 'admin123',  # Your MySQL password
-        'HOST': 'localhost',            # Or IP address if on a different server
-        'PORT': '3306',                 # MySQL port (default is 3306)
+        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.mysql'),
+        'NAME': os.getenv('DB_NAME', 'library_db'),
+        'USER': os.getenv('DB_USER', 'root'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'admin123'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),  # Use 'db' for Docker
+        'PORT': os.getenv('DB_PORT', '3306'),
     }
 }
 
@@ -130,3 +132,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #add manually
 STATICFILES_DIRS=[BASE_DIR / "static"]
+# Media Files
+MEDIA_URL = '/media/'  # Public URL for accessing media files
+MEDIA_ROOT = BASE_DIR / "media"  # Directory where media files are stored
+# Directory to collect all static files for production
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Additional directories containing static files
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),  # Your app's static directory
+]
+
+LOGIN_REDIRECT_URL = 'home'  # Redirect to home page after login
+LOGOUT_REDIRECT_URL = 'login'  # Redirect to login page after logout
