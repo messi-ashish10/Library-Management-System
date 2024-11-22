@@ -1,0 +1,75 @@
+{% extends "library/base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+
+    <!-- Dashboard Title -->
+    <h2 class="text-3xl font-semibold mb-6 text-center text-blue-600">Admin Dashboard</h2>
+
+    <!-- Statistics Section -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <!-- Total Books -->
+        <div class="bg-blue-500 text-white rounded-lg shadow-lg p-6 text-center">
+            <h3 class="text-2xl font-bold">Total Books</h3>
+            <p class="text-4xl font-semibold mt-2">{{ total_books }}</p>
+        </div>
+        <!-- Borrowed Books -->
+        <div class="bg-green-600 text-white rounded-lg shadow-lg p-6 text-center">
+            <h3 class="text-2xl font-bold">Borrowed Books</h3>
+            <p class="text-4xl font-semibold mt-2">{{ borrowed_books }}</p>
+        </div>
+        <!-- Returned Books -->
+        <div class="bg-red-500 text-white rounded-lg shadow-lg p-6 text-center">
+            <h3 class="text-2xl font-bold">Returned Books</h3>
+            <p class="text-4xl font-semibold mt-2">{{ returned_books }}</p>
+        </div>
+    </div>
+
+    <!-- Add Book Button -->
+    <div class="flex items-center justify-end mb-8 mt-4">
+        <a href="{% url 'add_book' %}" 
+           class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 shadow-lg">
+           Add Book
+        </a>
+    </div>
+
+    <!-- Books Table -->
+    <div class="w-full">
+        <table class="w-full bg-white shadow-md rounded-lg">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 border-b text-center">Title</th>
+                    <th class="py-2 px-4 border-b text-center">Genre</th>
+                    <th class="py-2 px-4 border-b text-center">ISBN</th>
+                    <th class="py-2 px-4 border-b text-center">Publisher</th>
+                    <th class="py-2 px-4 border-b text-center">Available Copies</th>
+                    <th class="py-2 px-4 border-b text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                <tr class="hover:bg-gray-100">
+                    <td class="py-2 px-4 border-b text-center">{{ book.title }}</td>
+                    <td class="py-2 px-4 border-b text-center">{{ book.genre }}</td>
+                    <td class="py-2 px-4 border-b text-center">{{ book.isbn }}</td>
+                    <td class="py-2 px-4 border-b text-center">{{ book.publisher }}</td>
+                    <td class="py-2 px-4 border-b text-center">{{ book.copies_available }}</td>
+                    <td class="py-2 px-4 border-b text-center">
+                        <a href="{% url 'edit_book' book.id %}" 
+                           class="bg-green-600 text-white px-4 py-2 rounded-full shadow hover:bg-green-700">
+                           Edit
+                        </a>
+                        <a href="{% url 'delete_book' book.id %}" 
+                           class="bg-red-700 text-white px-4 py-2 rounded-full shadow hover:bg-red-800 ml-2">
+                           Delete
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

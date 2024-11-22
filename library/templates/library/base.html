@@ -6,14 +6,14 @@
     <title>{% block title %}Library Management System{% endblock %}</title>
 
     {% load static %}
-    <link href="{% static 'css/library.css' %}" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Dropdown Styles */
         .dropdown {
             position: relative;
             display: inline-block;
         }
-        
         .dropdown-content {
             display: none;
             position: absolute;
@@ -21,80 +21,92 @@
             background-color: white;
             color: gray;
             width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
             border-radius: 5px;
             overflow: hidden;
-            z-index: 1;
+            z-index: 10;
         }
-        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
         .dropdown-content a {
             color: black;
             padding: 12px 16px;
             text-decoration: none;
             display: block;
         }
-
         .dropdown-content a:hover {
             background-color: #f1f1f1;
         }
-        
-        .dropdown:focus-within .dropdown-content {
-            display: block;
-        }
-
-        /* Styles for messages */
-        .messages {
-            margin-bottom: 20px;
-        }
-        .message {
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 5px;
-        }
-        .message.success { background-color: #d4edda; color: #155724; }
-        .message.error { background-color: #f8d7da; color: #721c24; }
-        .message.info { background-color: #d1ecf1; color: #0c5460; }
-        .message.warning { background-color: #fff3cd; color: #856404; }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-900">
 
-    <!-- Navbar -->
-    <header class="bg-blue-600 text-white shadow-md">
+    <!-- Top Header Section -->
+    <header class="bg-blue-950 text-white">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="/" class="text-2xl font-bold">Library Management System</a>
-            <nav class="flex space-x-4">
-                <a href="/" class="hover:text-gray-300">Home</a>
-                <a href="{% url 'book_list' %}" class="hover:text-gray-300">Books</a>
-                <a href="{% url 'about' %}" class="hover:text-gray-300">About</a>
-                <a href="{% url 'contact' %}" class="hover:text-gray-300">Contact</a>
-                
-                <div class="dropdown">
-                    <button class="hover:text-gray-300 focus:outline-none">Profile</button>
-                    <div class="dropdown-content">
-                        <a href="{% url 'profile' %}">My Profile</a> <!-- Always show "My Profile" -->
-                        {% if user.is_authenticated %}
-                            <a href="{% url 'logout' %}">Logout</a>
-                        {% else %}
-                            <a href="{% url 'login' %}">Login</a>
-                        {% endif %}
-                    </div>
+            <!-- Logo and Library Name -->
+            <div class="flex items-center space-x-4">
+                <img src="{% static 'images/humber_logo.webp' %}" alt="Humber Logo" class="h-8">
+                <span class="text-lg font-bold">University of Guelph Humber | Library</span>
+            </div>
+            <!-- My Library Account with Dropdown -->
+            <div class="dropdown">
+                <div class="flex items-center space-x-2 cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5zm0 2c-3.319 0-10 1.689-10 5v2h20v-2c0-3.311-6.681-5-10-5z" />
+                    </svg>
+                    <span>My Library Account</span>
                 </div>
-            </nav>
+                <div class="dropdown-content">
+                    <a href="{% url 'profile' %}">My Profile</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                        <a href="{% url 'login' %}">Login</a>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </header>
 
+    <!-- Navigation Section -->
+    <nav class="bg-blue-900 text-white">
+        <div class="container mx-auto px-4 py-4 flex justify-around items-center text-sm font-semibold">
+            <div class="flex-1 text-center border-r border-blue-700 hover:bg-blue-700 transition duration-200">
+                <a href="{% url 'home' %}" class="block py-2">Home</a>
+            </div>
+            <div class="flex-1 text-center border-r border-blue-700">
+                <div class="relative">
+                    <!-- Button to Toggle Dropdown -->
+                    <button onclick="toggleDropdown()" class="block py-2 w-full hover:bg-blue-700 focus:outline-none">Books</button>
+                    
+                    <!-- Dropdown Content -->
+                    <div id="dropdown" class="absolute left-0 hidden bg-white text-blue-800 shadow-md rounded-lg mt-2 w-64 z-10">
+                        <ul class="py-2">
+                            <li><a href="{% url 'book_list' %}" class="block px-4 py-2 hover:bg-gray-100">Fiction</a></li>
+                            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">Non-Fiction</a></li>
+                            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">Children's Books</a></li>
+                            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">New Arrivals</a></li>
+                            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">E-Books</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-1 text-center border-r border-blue-700 hover:bg-blue-700 transition duration-200">
+                <a href="#" class="block py-2">Visit Us</a>
+            </div>
+            <div class="flex-1 text-center border-r border-blue-700 hover:bg-blue-700 transition duration-200">
+                <a href="{% url 'contact' %}" class="block py-2">Contact Us</a>
+            </div>
+            <div class="flex-1 text-center hover:bg-blue-700 transition duration-200">
+                <a href="{% url 'about' %}" class="block py-2">About Us</a>
+            </div>
+        </div>
+    </nav>
+
     <!-- Main Content -->
     <main class="container mx-auto p-6">
-        <!-- Messages Section -->
-        {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                    <div class="message {{ message.tags }}">{{ message }}</div>
-                {% endfor %}
-            </div>
-        {% endif %}
-
         {% block content %}{% endblock %}
     </main>
 
@@ -103,5 +115,22 @@
         <p>&copy; 2024 Library Management System. All rights reserved.</p>
     </footer>
 
+    <!-- JavaScript to Toggle Dropdown -->
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        // Close the dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+            const dropdown = document.getElementById('dropdown');
+            const button = event.target.closest('button');
+            
+            if (!dropdown.contains(event.target) && !button) {
+                dropdown.classList.add('hidden');
+            }
+        });
+    </script>
 </body>
 </html>

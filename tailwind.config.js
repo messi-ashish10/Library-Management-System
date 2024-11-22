@@ -1,11 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-      './templates/**/*.html',     // Adjust path as needed
-      './**/templates/**/*.html',  // For multiple Django apps
+    './templates/**/*.html',  // Django templates
+    './static/js/**/*.js',    // JavaScript files
+    './**/*.html',            // Any additional HTML files
   ],
   theme: {
-      extend: {},
+    extend: {},
   },
   plugins: [],
-}
+};
+

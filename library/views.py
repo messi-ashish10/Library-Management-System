@@ -9,9 +9,9 @@ from django.utils import timezone
 from .forms import UserRegistrationForm
 
 # Create your views here.
-
 def home(request):
-    return render(request, 'library/home.html')
+    books = Book.objects.all()
+    return render(request, 'library/home.html', {'books':books})
 
 
 # Logout view
@@ -151,7 +151,7 @@ def logout_view(request):
     return redirect('home')  # Redirect to login page after logout
 
 #Profile View
-@login_required(login_url='login')  # Redirect to login if not authenticated
+#@login_required(login_url='login')  # Redirect to login if not authenticated
 def profile_view(request):
     return render(request, 'library/profile.html')
 

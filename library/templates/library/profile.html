@@ -1,0 +1,58 @@
+{% extends "library/base.html" %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-6 py-8">
+    <h2 class="text-3xl font-semibold mb-6">User Profile</h2>
+    
+    <!-- User Info Section -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h3 class="text-xl font-bold mb-4">Profile Information</h3>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Full Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+        <p><strong>Joined:</strong> {{ user.date_joined|date:"M d, Y" }}</p>
+    </div>
+    
+    <!-- Borrowed Books Section -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-xl font-bold mb-4">Borrowed Books</h3>
+        {% if borrowed_books %}
+        <table class="min-w-full bg-white shadow-md rounded-lg">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 border-b text-left">Title</th>
+                    <th class="py-2 px-4 border-b text-left">Borrow Date</th>
+                    <th class="py-2 px-4 border-b text-left">Return Date</th>
+                    <th class="py-2 px-4 border-b text-left">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in borrowed_books %}
+                <tr class="hover:bg-gray-100">
+                    <td class="py-2 px-4 border-b">{{ book.title }}</td>
+                    <td class="py-2 px-4 border-b">{{ book.borrow_date|date:"M d, Y" }}</td>
+                    <td class="py-2 px-4 border-b">
+                        {{ book.return_date|date:"M d, Y" }}
+                        {% if book.return_date|date:"U" < now|date:"U" %}
+                        <span class="text-red-500 ml-2">(Overdue)</span>
+                        {% endif %}
+                    </td>
+                    <td class="py-2 px-4 border-b">
+                        {% if book.return_date|date:"U" < now|date:"U" %}
+                        <span class="text-red-600">Overdue</span>
+                        {% else %}
+                        <span class="text-green-600">On Time</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No borrowed books at the moment.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
