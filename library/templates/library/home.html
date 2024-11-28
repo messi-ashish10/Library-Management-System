@@ -35,13 +35,14 @@
                     <p class="text-sm text-gray-600 mb-2"><strong>Genre:</strong> {{ book.genre }}</p>
                     <p class="text-sm text-gray-600 mb-2"><strong>ISBN:</strong> {{ book.isbn }}</p>
                     <p class="text-sm text-gray-600 mb-4"><strong>Copies:</strong> {{ book.copies_available }}</p>
-                    <a href="#" class="block w-full bg-blue-500 text-white text-center py-2 rounded-md hover:bg-blue-600">Place Hold</a>
-                    <button class="flex items-center justify-center w-full mt-2 text-blue-500 border border-blue-500 rounded-md py-2 hover:bg-blue-50">
+                    <a href="{% url 'borrow_book' book.id %}" class="block w-full bg-blue-500 text-white text-center py-2 rounded-md hover:bg-blue-600">Borrow</a>
+                    <a href="{% url 'save_reservation' book.id %}" class="flex items-center justify-center w-full mt-2 text-blue-500 border border-blue-500 rounded-md py-2 hover:bg-blue-50">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
                         Save
-                    </button>
+                    </a>
+                    
                 </div>
                 <!--<div class="p-4 text-sm text-gray-500">
                     <p>Publication Date {{ book.publication_date|date:"M d, Y" }}</p>

@@ -1,0 +1,39 @@
+{% extends "library/base.html" %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+    <h2 class="text-2xl font-semibold mb-6 text-center">Search Results for "{{ query }}"</h2>
+
+    {% if results %}
+        <!-- Grid of Books -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 flex-1">
+            {% for book in results %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="{{ book.cover_image_url }}" alt="{{ book.title }}" class="h-60 w-full object-cover">
+                <div class="p-4">
+                    <h3 class="text-lg font-bold mb-2">{{ book.title }}</h3>
+                    <p class="text-gray-700 mb-1"><strong>Author(s):</strong> {{ book.authors.all|join:", " }}</p>
+                    <p class="text-sm text-gray-600 mb-2"><strong>Genre:</strong> {{ book.genre }}</p>
+                    <p class="text-sm text-gray-600 mb-2"><strong>ISBN:</strong> {{ book.isbn }}</p>
+                    <p class="text-sm text-gray-600 mb-4"><strong>Copies:</strong> {{ book.copies_available }}</p>
+                    <a href="#" class="block w-full bg-blue-500 text-white text-center py-2 rounded-md hover:bg-blue-600">Place Hold</a>
+                    <button class="flex items-center justify-center w-full mt-2 text-blue-500 border border-blue-500 rounded-md py-2 hover:bg-blue-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        Save
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- No Results Found -->
+        <div class="text-center">
+            <p class="text-gray-700 text-lg">No results found for your search.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

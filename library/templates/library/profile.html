@@ -15,8 +15,18 @@
         <p><strong>Joined:</strong> {{ user.date_joined|date:"M d, Y" }}</p>
     </div>
     
+    <!-- Dashboard Section -->
+    <div class="mt-8 p-4">
+        <h2 class="text-2xl font-semibold mb-4 text-center">Your Dashboard</h2>
+        <div class="flex justify-center space-x-6">
+            <a href="{% url 'borrow_history'%}" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-700">Borrowing History</a>
+            <a href="/reservations" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-700">Your Reservations</a>
+            <a href="/fines" class="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-700">Pending Fines</a>
+        </div>
+    </div>
+    
     <!-- Borrowed Books Section -->
-    <div class="bg-white rounded-lg shadow-md p-6">
+    <div class="bg-white rounded-lg shadow-md p-6 mt-8">
         <h3 class="text-xl font-bold mb-4">Borrowed Books</h3>
         {% if borrowed_books %}
         <table class="min-w-full bg-white shadow-md rounded-lg">
@@ -31,7 +41,7 @@
             <tbody>
                 {% for book in borrowed_books %}
                 <tr class="hover:bg-gray-100">
-                    <td class="py-2 px-4 border-b">{{ book.title }}</td>
+                    <td class="py-2 px-4 border-b">{{ book.book.title }}</td>
                     <td class="py-2 px-4 border-b">{{ book.borrow_date|date:"M d, Y" }}</td>
                     <td class="py-2 px-4 border-b">
                         {{ book.return_date|date:"M d, Y" }}

@@ -7,6 +7,8 @@
     <h2 class="text-2xl font-semibold mb-6">Edit Book</h2>
     <form method="POST" class="space-y-4" id="editBookForm">
         {% csrf_token %}
+        
+        <!-- Book Details -->
         <div>
             <label for="title" class="block text-gray-700 font-semibold">Title</label>
             <input type="text" name="title" id="title" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ book.title }}" required>
@@ -39,7 +41,42 @@
             <label for="description" class="block text-gray-700 font-semibold">Description</label>
             <textarea name="description" id="description" rows="4" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">{{ book.description }}</textarea>
         </div>
+
+        <!-- Author Details -->
+        <div id="authorContainer">
+            <h3 class="text-lg font-semibold mb-2">Author(s)</h3>
+            {% for author in book.authors.all %}
+            <div class="author-fields space-y-2">
+                <label for="first_name_{{ forloop.counter }}" class="block text-gray-700 font-semibold">First Name</label>
+                <input type="text" name="first_name[]" id="first_name_{{ forloop.counter }}" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ author.first_name }}" required>
+
+                <label for="last_name_{{ forloop.counter }}" class="block text-gray-700 font-semibold">Last Name</label>
+                <input type="text" name="last_name[]" id="last_name_{{ forloop.counter }}" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ author.last_name }}" required>
+
+                <label for="biography_{{ forloop.counter }}" class="block text-gray-700 font-semibold">Biography</label>
+                <textarea name="biography[]" id="biography_{{ forloop.counter }}" rows="2" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">{{ author.biography }}</textarea>
+
+                <label for="birth_date_{{ forloop.counter }}" class="block text-gray-700 font-semibold">Birth Date</label>
+                <input type="date" name="birth_date[]" id="birth_date_{{ forloop.counter }}" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" value="{{ author.birth_date }}">
+            </div>
+            {% endfor %}
+        </div>
+        <button type="button" id="addAuthorBtn" class="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 focus:ring-2 focus:ring-green-300">Add Another Author</button>
+
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-yellow-700 focus:ring-2 focus:ring-yellow-300">Update Book</button>
     </form>
 </div>
+<script>
+    // Add functionality to dynamically add more author fields
+    document.getElementById('addAuthorBtn').addEventListener('click', function () {
+        const authorContainer = document.getElementById('authorContainer');
+        const authorFields = document.querySelector('.author-fields');
+        const newAuthorFields = authorFields.cloneNode(true);
+
+        // Clear the input fields for the new author
+        newAuthorFields.querySelectorAll('input, textarea').forEach(input => input.value = '');
+
+        authorContainer.appendChild(newAuthorFields);
+    });
+</script>
 {% endblock %}

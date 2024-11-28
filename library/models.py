@@ -4,48 +4,9 @@ from datetime import timedelta
 
 # UserProfile Model (extends User with additional details and role)
 class UserProfile(models.Model):
-    ROLE_CHOICES = [
-        ('Admin', 'Admin'),
-        ('User', 'User'),
-    ]
-
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
-    membership_start_date = models.DateField(auto_now_add=True)
-    membership_expiration_date = models.DateField(null=True, blank=True)
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='User')
-
-    def __str__(self):
-        return f"{self.user.username} - {self.role}"
-
-
-# MembershipType Model
-class MembershipType(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField(blank=True, null=True)
-    duration_in_days = models.PositiveIntegerField()
-    price = models.DecimalField(max_digits=6, decimal_places=2)
-
-    def __str__(self):
-        return self.name
-
-
-# Membership Model
-class Membership(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    membership_type = models.ForeignKey(MembershipType, on_delete=models.SET_NULL, null=True)
-    start_date = models.DateField(auto_now_add=True)
-    expiration_date = models.DateField()
-    status = models.CharField(max_length=10, choices=[('Active', 'Active'), ('Expired', 'Expired')], default='Active')
-
-    def save(self, *args, **kwargs):
-        if self.membership_type and not self.expiration_date:
-            self.expiration_date = self.start_date + timedelta(days=self.membership_type.duration_in_days)
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"{self.user.username} - {self.membership_type.name}"
 
 # Author Model
 class Author(models.Model):

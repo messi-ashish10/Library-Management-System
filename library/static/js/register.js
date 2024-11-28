@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let strength = "Weak";
             let strengthWidth = "25%";
 
-            if (password.length >= 8) {
+            if (password.length >= 5) {
                 strength = "Medium";
                 strengthWidth = "50%";
                 if (/[A-Z]/.test(password) && /[0-9]/.test(password)) {

@@ -1,0 +1,32 @@
+{% extends "library/base.html" %}
+
+{% block title %}Borrow Book{% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+    <h2 class="text-2xl font-semibold mb-6">Borrow Book</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group mb-4">
+            <label for="user" class="block text-gray-700 font-semibold">User Name:</label>
+            <input type="text" id="user" value="{{ request.user.username }}" class="w-full border px-3 py-2 rounded" disabled>
+        </div>
+        <div class="form-group mb-4">
+            <label for="book" class="block text-gray-700 font-semibold">Book Name:</label>
+            <input type="text" id="book" value="{{ book.title }}" class="w-full border px-3 py-2 rounded" disabled>
+        </div>
+        <div class="form-group mb-4">
+            <label for="borrowDate" class="block text-gray-700 font-semibold">Borrow Date:</label>
+            <input type="date" id="borrowDate" name="borrow_date" 
+                   value="{{ borrow_date|date:'Y-m-d' }}" 
+                   class="w-full border px-3 py-2 rounded" required>
+        </div>        
+        
+        <div class="form-group mb-4">
+            <label for="returnDate" class="block text-gray-700 font-semibold">Expected Return Date:</label>
+            <input type="date" name="return_date" id="returnDate" class="w-full border px-3 py-2 rounded" required>
+        </div>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Confirm Borrow</button>
+    </form>
+</div>
+{% endblock %}
