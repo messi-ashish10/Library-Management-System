@@ -5,7 +5,10 @@
 {% block content %}
 <div class="container mx-auto px-6 py-8">
     <h2 class="text-3xl font-semibold mb-6">User Profile</h2>
-    
+    <nav class="mb-4 text-gray-600 text-sm">
+        <a href="{% url 'home' %}" class="hover:text-blue-500">Home</a> &gt;
+        <span class="text-gray-700">Profile</span>
+    </nav>
     <!-- User Info Section -->
     <div class="bg-white rounded-lg shadow-md p-6 mb-8">
         <h3 class="text-xl font-bold mb-4">Profile Information</h3>
@@ -19,9 +22,9 @@
     <div class="mt-8 p-4">
         <h2 class="text-2xl font-semibold mb-4 text-center">Your Dashboard</h2>
         <div class="flex justify-center space-x-6">
-            <a href="{% url 'borrow_history'%}" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-700">Borrowing History</a>
+            <a href="{% url 'borrow_history' %}" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-700">Borrowing History</a>
             <a href="/reservations" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-700">Your Reservations</a>
-            <a href="/fines" class="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-700">Pending Fines</a>
+            <a href="{% url 'fine_management' %}" class="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-700">Pending Fines</a>
         </div>
     </div>
     
@@ -34,8 +37,9 @@
                 <tr>
                     <th class="py-2 px-4 border-b text-left">Title</th>
                     <th class="py-2 px-4 border-b text-left">Borrow Date</th>
-                    <th class="py-2 px-4 border-b text-left">Return Date</th>
+                    <th class="py-2 px-4 border-b text-left">Expected Return Date</th>
                     <th class="py-2 px-4 border-b text-left">Status</th>
+                    <th class="py-2 px-4 border-b text-left">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,16 +48,30 @@
                     <td class="py-2 px-4 border-b">{{ book.book.title }}</td>
                     <td class="py-2 px-4 border-b">{{ book.borrow_date|date:"M d, Y" }}</td>
                     <td class="py-2 px-4 border-b">
-                        {{ book.return_date|date:"M d, Y" }}
-                        {% if book.return_date|date:"U" < now|date:"U" %}
+                        {{ book.expected_return_date|date:"M d, Y" }}
+                        {% if book.return_date is not None and book.return_date > book.expected_return_date %}
                         <span class="text-red-500 ml-2">(Overdue)</span>
                         {% endif %}
                     </td>
                     <td class="py-2 px-4 border-b">
-                        {% if book.return_date|date:"U" < now|date:"U" %}
-                        <span class="text-red-600">Overdue</span>
+                        {% if book.return_date %}
+                            {% if book.return_date > book.expected_return_date %}
+                            <span class="text-red-600">Overdue</span>
+                            {% else %}
+                            <span class="text-green-600">Returned On Time</span>
+                            {% endif %}
                         {% else %}
-                        <span class="text-green-600">On Time</span>
+                        <span class="text-yellow-600">Currently Borrowed</span>
+                        {% endif %}
+                    </td>
+                    <td class="py-2 px-4 border-b">
+                        {% if not book.return_date %}
+                        <form method="POST" action="{% url 'return_book' book.book.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">Return Book</button>
+                        </form>
+                        {% else %}
+                        <span class="text-gray-600">Returned</span>
                         {% endif %}
                     </td>
                 </tr>
@@ -61,7 +79,7 @@
             </tbody>
         </table>
         {% else %}
-        <p>No borrowed books at the moment.</p>
+        <p class="text-gray-700">No borrowed books at the moment.</p>
         {% endif %}
     </div>
 </div>

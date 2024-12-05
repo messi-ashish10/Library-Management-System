@@ -4,30 +4,53 @@
 
 {% block content %}
 <div class="container mx-auto p-6">
-    <h2 class="text-2xl font-semibold mb-6">Borrow History</h2>
-    <table class="w-full border-collapse border border-gray-300">
+    <nav class="mb-4 text-gray-600 text-sm">
+        <a href="{% url 'home' %}" class="hover:text-blue-500">Home</a> &gt;
+        <a href="{% url 'profile' %}" class="hover:text-blue-500">Profile</a> &gt;
+        <span class="text-gray-700">Borrow History</span>
+    </nav>
+    <h2 class="text-3xl font-semibold mb-6 text-center">Borrow History</h2>
+    {% if orders %}
+    <table class="min-w-full border-collapse border border-gray-300 shadow-md">
         <thead>
             <tr class="bg-gray-100">
-                <th class="border px-4 py-2">Book Title</th>
-                <th class="border px-4 py-2">Borrow Date</th>
-                <th class="border px-4 py-2">Return Date</th>
-                <th class="border px-4 py-2">Status</th>
+                <th class="border px-4 py-2 text-left">Book Title</th>
+                <th class="border px-4 py-2 text-left">Borrow Date</th>
+                <th class="border px-4 py-2 text-left">Expected Return Date</th>
+                <th class="border px-4 py-2 text-left">Return Date</th>
+                <th class="border px-4 py-2 text-left">Status</th>
             </tr>
         </thead>
         <tbody>
-            {% for order in orders %}
-            <tr>
-                <td class="border px-4 py-2">{{ order.book.title }}</td>
-                <td class="border px-4 py-2">{{ order.borrow_date }}</td>
-                <td class="border px-4 py-2">{{ order.return_date|default:"Not returned yet" }}</td>
-                <td class="border px-4 py-2">{{ order.order.status }}</td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4" class="text-center py-4">No borrow history found.</td>
+            {% for order_item in orders %}
+            <tr class="{% if order_item.return_date and order_item.return_date > order_item.expected_return_date %}bg-red-100{% elif not order_item.return_date %}bg-yellow-100{% else %}bg-green-100{% endif %}">
+                <td class="border px-4 py-2">{{ order_item.book.title }}</td>
+                <td class="border px-4 py-2">{{ order_item.borrow_date|date:"M d, Y" }}</td>
+                <td class="border px-4 py-2">{{ order_item.expected_return_date|date:"M d, Y" }}</td>
+                <td class="border px-4 py-2">
+                    {% if order_item.return_date %}
+                    {{ order_item.return_date|date:"M d, Y" }}
+                    {% else %}
+                    <span class="text-gray-600">Not returned yet</span>
+                    {% endif %}
+                </td>
+                <td class="border px-4 py-2">
+                    {% if not order_item.return_date %}
+                        <span class="text-yellow-600">Currently Borrowed</span>
+                    {% elif order_item.return_date > order_item.expected_return_date %}
+                        <span class="text-red-600">Overdue</span>
+                    {% else %}
+                        <span class="text-green-600">Returned On Time</span>
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+    <div class="text-center mt-8">
+        <p class="text-lg text-gray-600">You have no borrow history at the moment.</p>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

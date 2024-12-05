@@ -33,6 +33,11 @@
             <label for="total_copies" class="block text-gray-700 font-semibold">Total Copies</label>
             <input type="number" name="total_copies" id="total_copies" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" value="1">
         </div>
+
+        <div>
+            <label for="total_copies" class="block text-gray-700 font-semibold">Total Copies Available</label>
+            <input type="number" name="total_copies_available" id="total_copies_available" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" value="1">
+        </div>
         <div>
             <label for="cover_image_url" class="block text-gray-700 font-semibold">Cover Image URL</label>
             <input type="text" name="cover_image_url" id="cover_image_url" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -57,6 +62,7 @@
 
                 <label for="birth_date_1" class="block text-gray-700 font-semibold">Birth Date</label>
                 <input type="date" name="birth_date[]" id="birth_date_1" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+
             </div>
         </div>
         <button type="button" id="addAuthorBtn" class="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 focus:ring-2 focus:ring-green-300">Add Another Author</button>

@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container mx-auto p-6">
-
+    <!-- Message Section -->
     <!-- Dashboard Title -->
     <h2 class="text-3xl font-semibold mb-6 text-center text-blue-600">Admin Dashboard</h2>
 
@@ -57,14 +57,16 @@
                     <td class="py-2 px-4 border-b text-center">{{ book.publisher }}</td>
                     <td class="py-2 px-4 border-b text-center">{{ book.copies_available }}</td>
                     <td class="py-2 px-4 border-b text-center">
-                        <a href="{% url 'edit_book' book.id %}" 
-                           class="bg-green-600 text-white px-4 py-2 rounded-full shadow hover:bg-green-700">
-                           Edit
-                        </a>
-                        <a href="{% url 'delete_book' book.id %}" 
-                           class="bg-red-700 text-white px-4 py-2 rounded-full shadow hover:bg-red-800 ml-2">
-                           Delete
-                        </a>
+                        <div class="flex justify-center space-x-4">
+                            <a href="{% url 'edit_book' book.id %}" 
+                               class="bg-green-600 text-white px-4 py-2 rounded-full shadow hover:bg-green-700">
+                               Edit
+                            </a>
+                            <a href="{% url 'delete_book' book.id %}" 
+                               class="bg-red-700 text-white px-4 py-2 rounded-full shadow hover:bg-red-800">
+                               Delete
+                            </a>
+                        </div>
                     </td>
                 </tr>
                 {% endfor %}

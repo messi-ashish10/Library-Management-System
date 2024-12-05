@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-c$c-slw&b7khe9(oxy03y%2rr&8_%v!%w&1$8c7^5zrvsc9^$d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -83,7 +83,7 @@ DATABASES = {
         'NAME': os.getenv('DB_NAME', 'library_db'),
         'USER': os.getenv('DB_USER', 'root'),
         'PASSWORD': os.getenv('DB_PASSWORD', 'admin123'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),  # Use 'db' for Docker
+        'HOST': os.getenv('DB_HOST', 'localhost'), 
         'PORT': os.getenv('DB_PORT', '3306'),
     }
 }
@@ -93,18 +93,21 @@ DATABASES = {
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
+    #{
+        #'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    #},
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 4,  # Set a smaller minimum length
+        },
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    #{
+        #'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    #},
+    #{
+        #'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    #},
 ]
 
 

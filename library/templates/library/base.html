@@ -9,6 +9,17 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Make the body a flex container */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure the body height spans the viewport */
+        }
+
+        main {
+            flex: 1; /* Push the footer to the bottom if content is short */
+        }
+
         /* Dropdown Styles */
         .dropdown {
             position: relative;
@@ -79,7 +90,7 @@
     </style>
 </head>
 <body class="bg-gray-100 text-gray-900">
-
+    
     <!-- Top Header Section -->
     <header class="bg-blue-950 text-white">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
@@ -132,7 +143,7 @@
                     <!-- Dropdown Content -->
                     <div id="dropdown" class="absolute left-0 hidden bg-white text-blue-800 shadow-md rounded-lg mt-2 w-64 z-10">
                         <ul class="py-2">
-                            <li><a href="{% url 'book_list' %}" class="block px-4 py-2 hover:bg-gray-100">Fiction</a></li>
+                            <li><a href="{% url 'book_list' %}" class="block px-4 py-2 hover:bg-gray-100">All Books</a></li>
                             <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">Non-Fiction</a></li>
                             <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">Children's Books</a></li>
                             <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">New Arrivals</a></li>
@@ -153,6 +164,19 @@
         </div>
     </nav>
 
+    {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+            <div class="px-4 py-3 rounded shadow-md mb-4 
+                        {% if message.tags == 'error' %}bg-red-100 text-red-700{% endif %}
+                        {% if message.tags == 'success' %}bg-green-100 text-green-700{% endif %}
+                        {% if message.tags == 'info' %}bg-blue-100 text-blue-700{% endif %}
+            ">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
     <!-- Main Content -->
     <main class="container mx-auto p-6">
         {% block content %}{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "library/base.html" %}
+
+{% block title %}Fine Management{% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+    <h2 class="text-2xl font-semibold mb-6">Fine Management</h2>
+
+    <!-- Breadcrumbs -->
+    <nav class="mb-4 text-gray-600 text-sm">
+        <a href="{% url 'home' %}" class="hover:text-blue-500">Home</a> &gt;
+        <span class="text-gray-700">Fine Management</span>
+    </nav>
+
+    <!-- Fine Table -->
+    <div class="bg-white shadow-md rounded-lg p-4">
+        <h3 class="text-lg font-semibold mb-4">Your Fines</h3>
+
+        {% if fines %}
+        <table class="w-full border-collapse border border-gray-300">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="border px-4 py-2">Book Title</th>
+                    <th class="border px-4 py-2">Amount</th>
+                    <th class="border px-4 py-2">Status</th>
+                    <th class="border px-4 py-2">Payment Date</th>
+                    <th class="border px-4 py-2">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fine in fines %}
+                <tr>
+                    <td class="border px-4 py-2">{{ fine.order_item.book.title }}</td>
+                    <td class="border px-4 py-2">${{ fine.amount }}</td>
+                    <td class="border px-4 py-2">
+                        {% if fine.payment_status == "Paid" %}
+                        <span class="text-green-600">Paid</span>
+                        {% else %}
+                        <span class="text-red-600">Unpaid</span>
+                        {% endif %}
+                    </td>
+                    <td class="border px-4 py-2">
+                        {% if fine.payment_date %}
+                        {{ fine.payment_date|date:"M d, Y" }}
+                        {% else %}
+                        ---
+                        {% endif %}
+                    </td>
+                    <td class="border px-4 py-2">
+                        {% if fine.payment_status == "Unpaid" %}
+                        <form method="POST" action="#">
+                            {% csrf_token %}
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                                Pay Now
+                            </button>
+                        </form>
+                        {% else %}
+                        <span class="text-gray-600">No Action Required</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="text-gray-600">You currently have no fines.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

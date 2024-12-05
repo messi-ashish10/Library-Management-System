@@ -3,6 +3,11 @@
 {% block title %}About Us{% endblock %}
 
 {% block content %}
+<nav class="mb-4 text-gray-600 text-sm">
+    <a href="{% url 'home' %}" class="hover:text-blue-500">Home</a> &gt;
+    <span class="text-gray-700">About</span>
+</nav>
+
 <section class="max-w-2xl mx-auto mt-10 p-6 bg-gray-50 rounded-lg shadow-md">
     <h2 class="text-3xl font-bold text-blue-600 mb-4">About Our Library</h2>
     <p class="text-lg text-gray-700">Our library management system is designed to help students and staff easily access a wide variety of books and resources. Our mission is to support learning, research, and knowledge sharing by providing easy access to literature, journals, and digital resources.</p>

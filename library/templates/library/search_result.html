@@ -4,8 +4,16 @@
 
 {% block content %}
 <div class="container mx-auto p-6">
+    <nav class="mb-4 text-gray-600 text-sm">
+        <a href="{% url 'home' %}" class="hover:text-blue-500">Home</a> &gt;
+        <span class="text-gray-700">Search Result</span>
+    </nav>
+    
     <h2 class="text-2xl font-semibold mb-6 text-center">Search Results for "{{ query }}"</h2>
-
+    <nav class="mb-4 text-gray-600 text-sm">
+        <a href="{% url 'home' %}" class="hover:text-blue-500">Home</a> &gt;
+        <span class="text-gray-700">Search Result</span>
+    </nav>
     {% if results %}
         <!-- Grid of Books -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 flex-1">
@@ -18,12 +26,12 @@
                     <p class="text-sm text-gray-600 mb-2"><strong>Genre:</strong> {{ book.genre }}</p>
                     <p class="text-sm text-gray-600 mb-2"><strong>ISBN:</strong> {{ book.isbn }}</p>
                     <p class="text-sm text-gray-600 mb-4"><strong>Copies:</strong> {{ book.copies_available }}</p>
-                    <a href="#" class="block w-full bg-blue-500 text-white text-center py-2 rounded-md hover:bg-blue-600">Place Hold</a>
+                    <a href="#" class="block w-full bg-blue-500 text-white text-center py-2 rounded-md hover:bg-blue-600">Borrow</a>
                     <button class="flex items-center justify-center w-full mt-2 text-blue-500 border border-blue-500 rounded-md py-2 hover:bg-blue-50">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
-                        Save
+                        Reserve
                     </button>
                 </div>
             </div>

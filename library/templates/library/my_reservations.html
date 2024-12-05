@@ -5,6 +5,11 @@
 {% block content %}
 <div class="container mx-auto p-6">
     <h2 class="text-2xl font-semibold mb-6">My Reservations</h2>
+    <nav class="mb-4 text-gray-600 text-sm">
+        <a href="{% url 'home' %}" class="hover:text-blue-500">Home</a> &gt;
+        <span class="text-gray-700">Reservation</span>
+    </nav>
+    
     <table class="w-full border-collapse border border-gray-300">
         <thead>
             <tr class="bg-gray-100">
@@ -18,13 +23,22 @@
             <tr>
                 <td class="border px-4 py-2">{{ reservation.book.title }}</td>
                 <td class="border px-4 py-2">{{ reservation.reservation_date }}</td>
-                <td class="border px-4 py-2">
-                    <form method="POST" action="{% url 'cancel_reservation' reservation.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-                            Cancel
-                        </button>
-                    </form>
+                <td class="border px-4 py-2 justify-center">
+                    <div class="flex space-x-4 justify-center">
+                        <!-- Cancel Reservation Button -->
+                        <form method="POST" action="{% url 'cancel_reservation' reservation.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                                Cancel
+                            </button>
+                        </form>
+                
+                        <!-- Borrow Book Button -->
+                        <a href="{% url 'borrow_book' reservation.book.id %}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                            Borrow
+                        </a>
+                        
+                    </div>
                 </td>
             </tr>
             {% empty %}

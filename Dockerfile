@@ -8,6 +8,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     build-essential \
     default-libmysqlclient-dev \
+    default-mysql-client \
     pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
@@ -28,4 +29,6 @@ RUN python manage.py collectstatic --noinput
 EXPOSE 8000
 
 # Run the Django application
-CMD ["gunicorn", "-b", "0.0.0.0:8000", "myproject.wsgi:application"]
+#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+
